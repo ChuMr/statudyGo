@@ -4,7 +4,7 @@ package main
 import (
 	"fmt"
 
-	calc "fmt.go/studygo/day05/10calc"
+	calc "qian.zhang.com/studygo/day05/10calc"
 )
 
 func main() {
