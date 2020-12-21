@@ -5,8 +5,15 @@ import (
 	"path"
 	"runtime"
 	"strings"
-	"time"
 )
+
+type Logger interface {
+	Debug(format string, a ...interface{})
+	Info(format string, a ...interface{})
+	Warning(format string, a ...interface{})
+	Error(format string, a ...interface{})
+	Fatal(format string, a ...interface{})
+}
 
 // LogLevel 注释
 type LogLevel uint16
@@ -19,10 +26,6 @@ const (
 	ERROR
 	FATAl
 )
-
-type logger struct {
-	level LogLevel
-}
 
 func parseLogLevel(s string) LogLevel {
 	s = strings.ToLower(s)
@@ -44,11 +47,23 @@ func parseLogLevel(s string) LogLevel {
 	}
 }
 
-// NewLog 实例化日志类
-func NewLog(level string) logger {
-	LogLevel := parseLogLevel(level)
-	return logger{
-		level: LogLevel,
+func unParseLogLevel(l LogLevel) string {
+	// s = strings.ToLower(s)
+	switch l {
+	case 0:
+		return "DEBUG"
+	case 1:
+		return "TRACE"
+	case 2:
+		return "INFO"
+	case 3:
+		return "WARNING"
+	case 4:
+		return "ERROR"
+	case 5:
+		return "FATAl"
+	default:
+		return "DEBUG"
 	}
 }
 
@@ -61,42 +76,4 @@ func getInfo(n int) (funcName, fileName string, lineNo int) {
 	fileName = path.Base(file)
 	funcName = strings.Split(funcName, ".")[1]
 	return
-}
-
-// NewLog 实例化日志类
-func (l logger) myLog(DEBUG, msg string) {
-
-	t := time.Now()
-	funcName, fileName, lineNo := getInfo(3)
-	fmt.Printf("[%s] [%s] [%s:%s:%d]%s\n", t.Format("2006-01-02 15:04:05"), DEBUG, fileName, funcName, lineNo, msg)
-}
-
-func (l logger) Debug(msg string) {
-	if l.level <= DEBUG {
-		l.myLog("DEBUG", msg)
-	}
-}
-
-func (l logger) Info(msg string) {
-	if l.level <= INFO {
-		l.myLog("INFO", msg)
-	}
-}
-
-func (l logger) Warning(msg string) {
-	if l.level <= WARNING {
-		l.myLog("WARNING", msg)
-	}
-}
-
-func (l logger) Error(msg string) {
-	if l.level <= ERROR {
-		l.myLog("ERROR", msg)
-	}
-}
-
-func (l logger) Fatal(msg string) {
-	if l.level <= FATAl {
-		l.myLog("FATAl", msg)
-	}
 }
