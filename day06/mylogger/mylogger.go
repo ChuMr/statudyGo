@@ -7,6 +7,14 @@ import (
 	"strings"
 )
 
+type Logger interface {
+	Debug(format string, a ...interface{})
+	Info(format string, a ...interface{})
+	Warning(format string, a ...interface{})
+	Error(format string, a ...interface{})
+	Fatal(format string, a ...interface{})
+}
+
 // LogLevel 注释
 type LogLevel uint16
 
@@ -36,6 +44,26 @@ func parseLogLevel(s string) LogLevel {
 		return FATAl
 	default:
 		return DEBUG
+	}
+}
+
+func unParseLogLevel(l LogLevel) string {
+	// s = strings.ToLower(s)
+	switch l {
+	case 0:
+		return "DEBUG"
+	case 1:
+		return "TRACE"
+	case 2:
+		return "INFO"
+	case 3:
+		return "WARNING"
+	case 4:
+		return "ERROR"
+	case 5:
+		return "FATAl"
+	default:
+		return "DEBUG"
 	}
 }
 

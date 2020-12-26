@@ -5,53 +5,46 @@ import (
 	"time"
 )
 
-type Conolelogger struct {
+type Consolelogger struct {
 	level LogLevel
 }
 
 // NewLog 实例化日志类
-func NewLog(level string) Conolelogger {
+func NewLogConsoleLogger(level string) Consolelogger {
 	LogLevel := parseLogLevel(level)
-	return Conolelogger{
+	return Consolelogger{
 		level: LogLevel,
 	}
 }
 
 // NewLog 实例化日志类
-func (l Conolelogger) myLog(DEBUG, format string, a ...interface{}) {
 
-	msg := fmt.Sprintf(format, a...)
-	t := time.Now()
-	funcName, fileName, lineNo := getInfo(3)
-	fmt.Printf("[%s] [%s] [%s:%s:%d]%s\n", t.Format("2006-01-02 15:04:05"), DEBUG, fileName, funcName, lineNo, msg)
-}
-
-func (l Conolelogger) Debug(format string, a ...interface{}) {
-	if l.level <= DEBUG {
-		l.myLog("DEBUG", format, a...)
+func (l Consolelogger) myLog(lv LogLevel, format string, a ...interface{}) {
+	if lv >= l.level {
+		msg := fmt.Sprintf(format, a...)
+		t := time.Now()
+		funcName, fileName, lineNo := getInfo(3)
+		logStr := unParseLogLevel(lv)
+		fmt.Printf("[%s] [%s] [%s:%s:%d]%s\n", t.Format("2006-01-02 15:04:05"), logStr, fileName, funcName, lineNo, msg)
 	}
 }
 
-func (l Conolelogger) Info(format string, a ...interface{}) {
-	if l.level <= INFO {
-		l.myLog("INFO", format, a...)
-	}
+func (l Consolelogger) Debug(format string, a ...interface{}) {
+	l.myLog(DEBUG, format, a...)
 }
 
-func (l Conolelogger) Warning(format string, a ...interface{}) {
-	if l.level <= WARNING {
-		l.myLog("WARNING", format, a...)
-	}
+func (l Consolelogger) Info(format string, a ...interface{}) {
+	l.myLog(INFO, format, a...)
 }
 
-func (l Conolelogger) Error(format string, a ...interface{}) {
-	if l.level <= ERROR {
-		l.myLog("ERROR", format, a...)
-	}
+func (l Consolelogger) Warning(format string, a ...interface{}) {
+	l.myLog(WARNING, format, a...)
 }
 
-func (l Conolelogger) Fatal(format string, a ...interface{}) {
-	if l.level <= FATAl {
-		l.myLog("FATAl", format, a...)
-	}
+func (l Consolelogger) Error(format string, a ...interface{}) {
+	l.myLog(ERROR, format, a...)
+}
+
+func (l Consolelogger) Fatal(format string, a ...interface{}) {
+	l.myLog(FATAl, format, a...)
 }
