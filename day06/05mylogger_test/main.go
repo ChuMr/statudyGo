@@ -1,10 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"time"
 
-	"zhangqian.com/day06/mylogger"
+	"qian.zhang.com/studygo/day06/mylogger"
 )
+
+//	"zhangqian.com/day06/mylogger"
 
 // 日志库需求
 // 1 生产写文件，测试打印终端
@@ -22,8 +25,8 @@ import (
 
 func main() {
 
-	// log := mylogger.NewLog(mylogger.DEBUG)
-	log := mylogger.NewLog("info")
+	fmt.Println("test")
+	log := mylogger.NewLog("error")
 
 	// log.myLog("这是一条DEBUG日志")
 	for {
@@ -33,10 +36,10 @@ func main() {
 
 		log.Warning("这是一条Warning日志")
 
-		log.Error("这是一条Error日志")
+		log.Error("这是一条Error日志,id:%d,name:%s", 10000, "张三")
 
 		log.Fatal("这是一条Fatal日志")
 
-		time.Sleep(time.Second)
+		time.Sleep(5 * time.Second)
 	}
 }
