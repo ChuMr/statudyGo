@@ -3,7 +3,8 @@ package main
 import (
 	"time"
 
-	"qian.zhang.com/studygo/day06/mylogger"
+	// "qian.zhang.com/studygo/day06/mylogger"
+	"zhangqian.com/day06/mylogger"
 )
 
 //	"zhangqian.com/day06/mylogger"
