@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// 通道 接收 发送 关闭
 type job struct {
 	value int64
 }
