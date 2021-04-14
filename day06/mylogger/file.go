@@ -1,10 +1,5 @@
 package mylogger
 
-type FileLogger struct {
-}
-
-func main() {
-
 import (
 	"fmt"
 	"os"
@@ -12,15 +7,17 @@ import (
 	"time"
 )
 
+// FileLogger ...
 type FileLogger struct {
 	level       LogLevel
 	filePath    string
 	fileName    string
 	fileObj     *os.File
 	errFileObj  *os.File
-	maxFileSize int64
+	maxFileSize int64 
 }
 
+// NewFileLogger ...
 func NewFileLogger(levelStr, fp, fn string, maxFile int64) *FileLogger {
 
 	LogLevel := parseLogLevel(levelStr)
@@ -142,14 +139,17 @@ func (f *FileLogger) myLog(lv LogLevel, format string, a ...interface{}) {
 	}
 }
 
+// Debug ...
 func (f *FileLogger) Debug(format string, a ...interface{}) {
 	f.myLog(DEBUG, format, a...)
 }
 
+// Info ...
 func (f *FileLogger) Info(format string, a ...interface{}) {
 	f.myLog(INFO, format, a...)
 }
 
+// Warning ...
 func (f *FileLogger) Warning(format string, a ...interface{}) {
 	f.myLog(WARNING, format, a...)
 }
@@ -158,6 +158,7 @@ func (f *FileLogger) Error(format string, a ...interface{}) {
 	f.myLog(ERROR, format, a...)
 }
 
+// Fatal ...
 func (f *FileLogger) Fatal(format string, a ...interface{}) {
 	f.myLog(FATAl, format, a...)
 }
